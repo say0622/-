@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxy</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden; /* 화면에 스크롤바가 생기지 않도록 설정 */
+    }
+    canvas {
+      display: block; /* 캔버스 주위에 여백이 생기지 않도록 설정 */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // 캔버스 사이즈를 화면 사이즈에 맞춤
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // 배경 색상 랜덤 설정 (남색과 검은색 사이)
+    function getRandomBackgroundColor() {
+      const r = 0; // 남색과 검은색의 빨간색 요소는 거의 0
+      const g = Math.floor(Math.random() * 70); // 남색의 초록색 요소는 낮음
+      const b = Math.floor(Math.random() * 1) + 50; // 남색과 검은색의 파란색 요소 범위
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    document.body.style.backgroundColor = getRandomBackgroundColor();
+
+    // 별 그리기
+    const numStars = 100;
+    for (let i = 0; i < numStars; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const radius = Math.random() * 2;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+
+    // 별 그리기 함수
+    function drawStar(x, y) {
+      ctx.beginPath();
+      ctx.moveTo(x + 0, y - 30);
+      ctx.lineTo(x + 18, y - 30);
+      ctx.lineTo(x + 25, y - 50);
+      ctx.lineTo(x + 32, y - 30);
+      ctx.lineTo(x + 50, y - 30);
+      ctx.lineTo(x + 35, y - 18);
+      ctx.lineTo(x + 41, y);
+      ctx.lineTo(x + 25, y - 12);
+      ctx.lineTo(x + 9, y);
+      ctx.lineTo(x + 15, y - 18);
+      ctx.closePath();
+
+      // 랜덤 색상 생성
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // 20개의 별 그리기
+    for (let i = 0; i < 20; i++) {
+      const x = Math.random() * (canvas.width - 100) + 50; // 캔버스 가장자리에서 50px 여백
+      const y = Math.random() * (canvas.height - 100) + 50;
+      drawStar(x, y);
+    }
+
+    // 창 크기 변경 시 캔버스 크기 조정
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
